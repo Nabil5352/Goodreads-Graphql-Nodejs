@@ -1,6 +1,8 @@
 // Package Import
+require("dotenv").config();
 const express = require("express");
 const graphqlHTTP = require("express-graphql");
+const mongoose = require("mongoose");
 
 // Local Import
 const schema = require("./schema");
@@ -14,6 +16,11 @@ const app = express();
 app.listen(port, () => {
 	console.log(`Listening on ${port}`);
 });
+
+mongoose
+	.connect(process.env.DB_STRING, { useNewUrlParser: true })
+	.then(() => console.log("Database connected"))
+	.catch(err => console.log("Database connection error.", err));
 
 // Route
 app.get("/", (req, res) => res.redirect("/api"));
