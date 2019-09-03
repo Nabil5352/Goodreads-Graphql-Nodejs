@@ -6,6 +6,7 @@ const bookSchema = new Schema({
 	isbn: String,
 	isbn13: String,
 	originalPublicationYear: String,
+	imageUrl: String,
 	authorId: String,
 	languageId: String,
 	ratingId: String
