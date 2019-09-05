@@ -7,9 +7,9 @@ const bookSchema = new Schema({
 	isbn13: String,
 	originalPublicationYear: String,
 	imageUrl: String,
-	authorId: String,
-	languageId: String,
-	ratingId: String
+	authorId: [String],
+	languageId: [String],
+	ratingId: [String]
 });
 
 module.exports = mongoose.model("Book", bookSchema);

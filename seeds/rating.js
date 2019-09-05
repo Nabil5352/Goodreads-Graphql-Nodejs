@@ -1,22 +1,12 @@
-const dataset = require("../../datasets/authorOnly.json");
+const dataset = require("../../datasets/rating.json");
 
-const mapResult = dataset
-	.map(data => data[0].split(","))
-	.map(item =>
-		item.map(val => ({
-			name: val
-		}))
-	)
-	.map(item => item[0])
-	.reduce((acc, current) => {
-		const exist = acc.find(
-			item => item.name.trim() === current.name.trim()
-		);
-		if (!exist) {
-			return acc.concat([current]);
-		} else {
-			return acc;
-		}
-	}, []);
+const mapResult = dataset.map(item => ({
+	isbn: item[0],
+	rating1: item[1],
+	rating2: item[2],
+	rating3: item[3],
+	rating4: item[4],
+	rating5: item[5]
+}));
 
 module.exports = mapResult;

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ratingSchema = new Schema({
+	isbn: String,
 	rating1: Number,
 	rating2: Number,
 	rating3: Number,

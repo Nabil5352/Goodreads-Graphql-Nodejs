@@ -20,10 +20,13 @@ app.listen(port, () => {
 
 mongoose
 	.connect(process.env.DB_STRING, { useNewUrlParser: true })
-	.then(() => console.log("Database connected"))
+	.then(() => {
+		console.log("Database connected");
+		seeding();
+	})
 	.catch(err => console.log("Database connection error.", err));
 
-// Route
+// default route
 app.get("/", (req, res) => res.redirect("/api"));
 app.use(
 	"/api",
@@ -32,3 +35,6 @@ app.use(
 		graphiql: true
 	})
 );
+
+// all route
+app.get("*", (req, res) => res.redirect("/api"));
