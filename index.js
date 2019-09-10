@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 
 // Local Import
 const schema = require("./schema");
-// const seeding = require("./seeds/start");
+const seeding = require("./seeds/start");
 
 // Server Configuration
 const env = process.env.NODE_ENV || "dev";
