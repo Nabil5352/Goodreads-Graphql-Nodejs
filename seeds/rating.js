@@ -1,4 +1,4 @@
-const dataset = require("../../datasets/rating.json");
+const dataset = require("../datasets/rating.json");
 
 const mapResult = dataset.map(item => ({
 	isbn: item[0],

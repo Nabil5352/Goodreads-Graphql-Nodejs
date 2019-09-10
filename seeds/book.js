@@ -4,9 +4,9 @@ const Language = require("../models/language");
 const Rating = require("../models/rating");
 
 // datasets
-const dataset = require("../../datasets/book.json");
-const authorDataset = require("../../datasets/author.json");
-const languageDataset = require("../../datasets/language.json");
+const dataset = require("../datasets/book.json");
+const authorDataset = require("../datasets/author.json");
+const languageDataset = require("../datasets/language.json");
 
 //local search
 const findAuthorByIsbn = isbn => {

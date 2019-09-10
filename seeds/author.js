@@ -1,4 +1,4 @@
-const dataset = require("../../datasets/authorOnly.json");
+const dataset = require("../datasets/authorOnly.json");
 
 //format
 const datasetMap = dataset

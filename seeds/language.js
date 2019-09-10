@@ -1,4 +1,4 @@
-const dataset = require("../../datasets/languageOnly.json");
+const dataset = require("../datasets/languageOnly.json");
 
 module.exports = dataset
 	.map(data => data[0].split(","))
