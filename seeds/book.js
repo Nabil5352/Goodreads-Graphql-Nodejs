@@ -67,20 +67,20 @@ const findRatingId = async isbn => {
 
 // public
 
-const data = () => console.log("Book mapping started");
-Promise.all(
-	dataset.map(async data => ({
-		isbn: data[0],
-		title: data[1],
-		isbn13: data[2],
-		originalPublicationYear: data[3],
-		imageUrl: data[4],
-		authorId: await findAutherId(data[0]),
-		languageId: await findLanguageId(data[0]),
-		ratingId: await findRatingId(data[0])
-	}))
-)
-	.then(res => res)
-	.catch(err => console.log("mapping error", err));
+const data = () =>
+	Promise.all(
+		dataset.map(async data => ({
+			isbn: data[0],
+			title: data[1],
+			isbn13: data[2],
+			originalPublicationYear: data[3],
+			imageUrl: data[4],
+			authorId: await findAutherId(data[0]),
+			languageId: await findLanguageId(data[0]),
+			ratingId: await findRatingId(data[0])
+		}))
+	)
+		.then(res => res)
+		.catch(err => console.log("mapping error", err));
 
 module.exports = data;

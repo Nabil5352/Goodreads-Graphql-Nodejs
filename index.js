@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 
 // Local Import
 const schema = require("./schema");
-const seeding = require("./seeds/start");
+// const seeding = require("./seeds/start");
 
 // Server Configuration
 const env = process.env.NODE_ENV || "dev";
@@ -22,7 +22,7 @@ mongoose
 	.connect(process.env.DB_STRING, { useNewUrlParser: true })
 	.then(() => {
 		console.log("Database connected");
-		seeding();
+		// seeding();
 	})
 	.catch(err => console.log("Database connection error.", err));
 
