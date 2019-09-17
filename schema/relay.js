@@ -15,7 +15,6 @@ const {
 	GraphQLList,
 	GraphQLNonNull
 } = graphql;
-
 // Query
 const AuthorType = new GraphQLObjectType({
 	name: "Author",
@@ -153,90 +152,7 @@ const RootQuery = new GraphQLObjectType({
 });
 
 // Mutation
-const Mutation = new GraphQLObjectType({
-	name: "Mutation",
-	fields: {
-		addBook: {
-			type: BookType,
-			args: {
-				title: { type: new GraphQLNonNull(GraphQLString) },
-				isbn: { type: GraphQLString },
-				isbn13: { type: GraphQLString },
-				originalPublicationYear: { type: GraphQLString },
-				authorId: { type: new GraphQLNonNull(GraphQLID) },
-				languageId: { type: GraphQLID },
-				ratingId: { type: GraphQLID }
-			},
-			resolve(
-				parent,
-				{
-					title,
-					isbn,
-					isbn13,
-					originalPublicationYear,
-					authorId,
-					languageId,
-					ratingId
-				}
-			) {
-				const book = new Book({
-					title,
-					isbn,
-					isbn13,
-					originalPublicationYear,
-					authorId,
-					languageId,
-					ratingId
-				});
-				return book.save();
-			}
-		},
-		addAuthor: {
-			type: AuthorType,
-			args: {
-				name: { type: new GraphQLNonNull(GraphQLString) }
-			},
-			resolve(parent, { name }) {
-				const author = new Author({
-					name
-				});
-				return author.save();
-			}
-		},
-		addLanguage: {
-			type: LanguageType,
-			args: {
-				code: { type: new GraphQLNonNull(GraphQLString) }
-			},
-			resolve(parent, { code }) {
-				const language = new Language({
-					code
-				});
-				return language.save();
-			}
-		},
-		addRating: {
-			type: RatingType,
-			args: {
-				rating1: { type: GraphQLInt },
-				rating2: { type: GraphQLInt },
-				rating3: { type: GraphQLInt },
-				rating4: { type: GraphQLInt },
-				rating5: { type: GraphQLInt }
-			},
-			resolve(parent, { rating1, rating2, rating3, rating4, rating5 }) {
-				const rating = new Rating({
-					rating1,
-					rating2,
-					rating3,
-					rating4,
-					rating5
-				});
-				return rating.save();
-			}
-		}
-	}
-});
+
 
 module.exports = new GraphQLSchema({
 	query: RootQuery,

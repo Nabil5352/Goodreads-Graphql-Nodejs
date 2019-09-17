@@ -5,7 +5,8 @@ const graphqlHTTP = require("express-graphql");
 const mongoose = require("mongoose");
 
 // Local Import
-const schema = require("./schema");
+const generalSchema = require("./schema/general");
+const relaySchema = require("./schema/relay");
 const seeding = require("./seeds/start");
 
 // Server Configuration
@@ -22,7 +23,10 @@ mongoose
 	.connect(process.env.DB_STRING, { useNewUrlParser: true })
 	.then(() => {
 		console.log("Database connected");
+		/*
+		Warning: read seed files code properly, this might damange existing db
 		// seeding();
+		*/
 	})
 	.catch(err => console.log("Database connection error.", err));
 
@@ -31,7 +35,15 @@ app.get("/", (req, res) => res.redirect("/api"));
 app.use(
 	"/api",
 	graphqlHTTP({
-		schema,
+		schema: generalSchema,
+		graphiql: true
+	})
+);
+
+app.use(
+	"/rapi",
+	graphqlHTTP({
+		schema: relaySchema,
 		graphiql: true
 	})
 );
