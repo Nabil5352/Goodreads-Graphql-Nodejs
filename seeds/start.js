@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 // const Db = require("mongodb").Db;
 // const Server = require("mongodb").Server;
 
@@ -11,16 +11,16 @@ const mongoose = require("mongoose");
 // 	});
 // });
 //MODEL
-const Book = require("../models/book");
-const Author = require("../models/author");
-const Language = require("../models/language");
-const Rating = require("../models/rating");
+const Book = require('../models/book');
+const Author = require('../models/author');
+const Language = require('../models/language');
+const Rating = require('../models/rating');
 
 //SEED
-const authorData = require("./author");
-const languageData = require("./language");
-const ratingData = require("./rating");
-const bookData = require("./book");
+const authorData = require('./author');
+const languageData = require('./language');
+const ratingData = require('./rating');
+const bookData = require('./book');
 
 // const deleteAuthorDB = new Promise((resolve, reject) => {
 // 	try {
@@ -123,34 +123,34 @@ const startSeeding = () => {
 	// 		}
 	// 	})
 	// 	.catch(err => console.log("Something went wrong!", err));
-	console.log("Start seeding ");
-	Author.insertMany(authorData, function(err, docs) {
+	console.log('Start seeding ');
+	Author.insertMany(authorData, function(err) {
 		if (!err) {
-			seedAuthor = true;
-			console.log("Seeding author is successful!");
-		} else console.log("Error in author seeding", err.message);
+			// seedAuthor = true;
+			console.log('Seeding author is successful!');
+		} else console.log('Error in author seeding', err.message);
 	});
-	Language.insertMany(languageData, function(err, docs) {
+	Language.insertMany(languageData, function(err) {
 		if (!err) {
-			seedLanguage = true;
-			console.log("Seeding language is successful!");
-		} else console.log("Error in language seeding", err.message);
+			// seedLanguage = true;
+			console.log('Seeding language is successful!');
+		} else console.log('Error in language seeding', err.message);
 	});
-	Rating.insertMany(ratingData, function(err, docs) {
+	Rating.insertMany(ratingData, function(err) {
 		if (!err) {
-			seedRating = true;
-			console.log("Seeding rating data is successful!");
-		} else console.log("Error in rating seeding", err.message);
+			// seedRating = true;
+			console.log('Seeding rating data is successful!');
+		} else console.log('Error in rating seeding', err.message);
 	});
 
 	bookData()
 		.then(res => {
-			Book.insertMany(res, function(err, docs) {
-				if (err) console.log("Error in book seeding", err.message);
-				else console.log("Seeding book data is successful!");
+			Book.insertMany(res, function(err) {
+				if (err) console.log('Error in book seeding', err.message);
+				else console.log('Seeding book data is successful!');
 			});
 		})
-		.catch(err => console.log("Error in bookdata", err));
+		.catch(err => console.log('Error in bookdata', err));
 };
 
 module.exports = startSeeding;

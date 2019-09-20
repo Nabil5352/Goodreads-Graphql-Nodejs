@@ -1,16 +1,15 @@
 // Package Import
-import denv from 'dotenv';
-import express from 'express';
-import graphqlHTTP from 'express-graphql';
-import mongoose from 'mongoose';
+require('dotenv').config();
+const express = require('express');
+const graphqlHTTP = require('express-graphql');
+const mongoose = require('mongoose');
 
 // Local Import
-import generalSchema from './schema/general';
-import relaySchema from './schema/relay';
-// import seeding from "./seeds/start";
+const generalSchema = require('./schema/general');
+const relaySchema = require('./schema/relay');
+// const seeding = require('./seeds/start')
 
 // Server Configuration
-denv.config();
 const ENV = process.env;
 const env = ENV.NODE_ENV || 'development';
 const port = ENV.PORT || 4000;
@@ -48,7 +47,7 @@ app.use(
 	'/api',
 	graphqlHTTP({
 		schema: generalSchema,
-		graphiql: !!(env === 'development')
+		graphiql: true
 	})
 );
 

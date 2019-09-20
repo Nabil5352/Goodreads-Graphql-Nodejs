@@ -1,10 +1,13 @@
-const graphql = require("graphql");
+const graphql = require('graphql');
 
 // Models
-const Book = require("../models/book");
-const Author = require("../models/author");
-const Language = require("../models/language");
-const Rating = require("../models/rating");
+const Book = require('../models/book');
+const Author = require('../models/author');
+const Language = require('../models/language');
+const Rating = require('../models/rating');
+
+// Helpers
+const authChecker = require('../libs/auth');
 
 const {
 	GraphQLSchema,
@@ -17,7 +20,7 @@ const {
 } = graphql;
 // Query
 const AuthorType = new GraphQLObjectType({
-	name: "Author",
+	name: 'Author',
 	fields: () => ({
 		id: { type: GraphQLID },
 		name: { type: GraphQLString },
@@ -31,7 +34,7 @@ const AuthorType = new GraphQLObjectType({
 });
 
 const BookType = new GraphQLObjectType({
-	name: "Book",
+	name: 'Book',
 	fields: () => ({
 		id: { type: GraphQLID },
 		title: { type: GraphQLString },
@@ -62,7 +65,7 @@ const BookType = new GraphQLObjectType({
 });
 
 const LanguageType = new GraphQLObjectType({
-	name: "Language",
+	name: 'Language',
 	fields: () => ({
 		id: { type: GraphQLID },
 		code: { type: GraphQLString },
@@ -76,7 +79,7 @@ const LanguageType = new GraphQLObjectType({
 });
 
 const RatingType = new GraphQLObjectType({
-	name: "Rating",
+	name: 'Rating',
 	fields: () => ({
 		id: { type: GraphQLID },
 		rating1: { type: GraphQLInt },
@@ -94,7 +97,7 @@ const RatingType = new GraphQLObjectType({
 });
 
 const RootQuery = new GraphQLObjectType({
-	name: "RootQueryType",
+	name: 'RootQueryType',
 	fields: {
 		book: {
 			type: BookType,
@@ -153,7 +156,7 @@ const RootQuery = new GraphQLObjectType({
 
 // Mutation
 const Mutation = new GraphQLObjectType({
-	name: "Mutation",
+	name: 'Mutation',
 	fields: {
 		addBook: {
 			type: BookType,
@@ -176,7 +179,8 @@ const Mutation = new GraphQLObjectType({
 					authorId,
 					languageId,
 					ratingId
-				}
+				},
+				context
 			) {
 				const book = new Book({
 					title,
@@ -187,7 +191,8 @@ const Mutation = new GraphQLObjectType({
 					languageId,
 					ratingId
 				});
-				return book.save();
+				const controller = book.save();
+				return authChecker(context, controller);
 			}
 		},
 		addAuthor: {
@@ -195,11 +200,12 @@ const Mutation = new GraphQLObjectType({
 			args: {
 				name: { type: new GraphQLNonNull(GraphQLString) }
 			},
-			resolve(parent, { name }) {
+			resolve(parent, { name }, context) {
 				const author = new Author({
 					name
 				});
-				return author.save();
+				const controller = author.save();
+				return authChecker(context, controller);
 			}
 		},
 		addLanguage: {
@@ -207,11 +213,12 @@ const Mutation = new GraphQLObjectType({
 			args: {
 				code: { type: new GraphQLNonNull(GraphQLString) }
 			},
-			resolve(parent, { code }) {
+			resolve(parent, { code }, context) {
 				const language = new Language({
 					code
 				});
-				return language.save();
+				const controller = language.save();
+				return authChecker(context, controller);
 			}
 		},
 		addRating: {
@@ -223,7 +230,11 @@ const Mutation = new GraphQLObjectType({
 				rating4: { type: GraphQLInt },
 				rating5: { type: GraphQLInt }
 			},
-			resolve(parent, { rating1, rating2, rating3, rating4, rating5 }) {
+			resolve(
+				parent,
+				{ rating1, rating2, rating3, rating4, rating5 },
+				context
+			) {
 				const rating = new Rating({
 					rating1,
 					rating2,
@@ -231,7 +242,8 @@ const Mutation = new GraphQLObjectType({
 					rating4,
 					rating5
 				});
-				return rating.save();
+				const controller = rating.save();
+				return authChecker(context, controller);
 			}
 		}
 	}
