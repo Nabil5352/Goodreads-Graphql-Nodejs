@@ -1,18 +1,20 @@
 // Package Import
-require("dotenv").config();
-const express = require("express");
-const graphqlHTTP = require("express-graphql");
-const mongoose = require("mongoose");
+import denv from 'dotenv';
+import express from 'express';
+import graphqlHTTP from 'express-graphql';
+import mongoose from 'mongoose';
 
 // Local Import
-const generalSchema = require("./schema/general");
-const relaySchema = require("./schema/relay");
-// const seeding = require("./seeds/start");
+import generalSchema from './schema/general';
+import relaySchema from './schema/relay';
+// import seeding from "./seeds/start";
 
 // Server Configuration
-const env = process.env.NODE_ENV || "dev";
-const port = process.env.PORT || 4000;
-const tokenKey = process.env.GGKEY_TOKEN;
+denv.config();
+const ENV = process.env;
+const env = ENV.NODE_ENV || 'development';
+const port = ENV.PORT || 4000;
+const tokenKey = ENV.GGKEY_TOKEN;
 
 const app = express();
 
@@ -20,43 +22,43 @@ app.listen(port, () => {
 	console.log(`Listening on ${port}`);
 });
 
-if(!tokenKey){
+if (!tokenKey) {
 	console.log('Set initial environment variables');
 	process.exit(1);
 }
 
-if(!process.env.DB_STRING){
+if (!process.env.DB_STRING) {
 	process.exit(1);
 }
 
 mongoose
-	.connect(process.env.DB_STRING, { useNewUrlParser: true })
+	.connect(ENV.DB_STRING, { useNewUrlParser: true })
 	.then(() => {
-		console.log("Database connected");
+		console.log('Database connected');
 		/*
 		Warning: read seed files code properly, this might damange existing db
 		// seeding();
 		*/
 	})
-	.catch(err => console.log("Database connection error.", err));
+	.catch(err => console.log('Database connection error.', err));
 
 // default route
-app.get("/", (req, res) => res.redirect("/api"));
+app.get('/', (req, res) => res.redirect('/api'));
 app.use(
-	"/api",
+	'/api',
 	graphqlHTTP({
 		schema: generalSchema,
-		graphiql: true
+		graphiql: !!(env === 'development')
 	})
 );
 
 app.use(
-	"/rapi",
+	'/rapi',
 	graphqlHTTP({
 		schema: relaySchema,
-		graphiql: true
+		graphiql: !!(env === 'development')
 	})
 );
 
 // all route
-app.get("*", (req, res) => res.redirect("/api"));
+app.get('*', (req, res) => res.redirect('/api'));
